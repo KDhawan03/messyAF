@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Navbar from './components/Navbar'
 import MealPanels from './components/MealPanels'
+import Calendar from 'react-calendar'
 
 function App() {
   
@@ -81,17 +82,22 @@ function App() {
   return (
     <div>
       <Navbar />
-      <div className='pt-30 bg-[#abd1c6] min-h-screen'>
-      {
-        ['Breakfast', 'Lunch', 'Snacks', 'Dinner'].map((meal) => (
-          <MealPanels 
-            key={meal}
-            mealType={meal}
-            items={todayMeals.meals[meal]}
-          />
-        ))
-      }
-    </div>
+      <div className='flex justify-between pt-30 bg-[#abd1c6] min-h-screen'>
+        <div className='flex flex-col flex-1'>
+          {
+            ['Breakfast', 'Lunch', 'Snacks', 'Dinner'].map((meal) => (
+              <MealPanels 
+                key={meal}
+                mealType={meal}
+                items={todayMeals.meals[meal]}
+              />
+            ))
+          }
+        </div>
+        <div className={'w-100'}>
+          <Calendar/>
+        </div>
+      </div>
     </div>
   )
 }
