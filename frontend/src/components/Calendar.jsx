@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactCalendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css';
+import './Calendar.css';
 
 const Calendar = () => {
   return (
-    <div className='w-300'>
-        <ReactCalendar/>
+    <div>
+      <ReactCalendar />
     </div>
   )
 }

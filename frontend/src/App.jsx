@@ -2,7 +2,8 @@ import { useState } from 'react'
 import './App.css'
 import Navbar from './components/Navbar'
 import MealPanels from './components/MealPanels'
-import Calendar from 'react-calendar'
+import Calendar from './components/Calendar'
+import 'react-calendar/dist/Calendar.css';
 
 function App() {
   
@@ -14,70 +15,69 @@ function App() {
 
   const menu = [
     {
-      day : 'Monday',
-      meals : {
-        Breakfast: ['Aloo parantha', 'chai'],
-        Lunch: [''],
-        Snacks: [''],
-        Dinner: ['']
-      }
-    }, 
-    {
-      day : 'Tuesday',
-      meals : {
-        Breakfast: ['Sattu parantha', 'chai'],
-        Lunch: [''],
-        Snacks: [''],
-        Dinner: ['']
+      day: 'Monday',
+      meals: {
+        Breakfast: ['Aloo parantha (1 pc)', 'Bread (2 pcs)', 'Jam & Butter', 'Milk / Tea', 'Banana / Egg (1 pc)'],
+        Lunch: ['Jeera Rice', 'Arhar Dal', 'Bhindi Veg with Gravy', 'Roti (2)', 'Curd'],
+        Snacks: ['Papad', 'Sauce'],
+        Dinner: ['Plain Rice', 'Masoor Dal', 'Roti (2)', 'Mix Veg / Paneer Masala', 'Egg Rice / Chicken Masala']
       }
     },
     {
-      day : 'Wednesday',
-      meals : {
-        Breakfast: ['Aloo parantha', 'chai'],
-        Lunch: [''],
-        Snacks: [''],
-        Dinner: ['']
+      day: 'Tuesday',
+      meals: {
+        Breakfast: ['Aloo / Sattu Parantha', 'Bread (2 pcs)', 'Jam & Butter', 'Milk / Tea', 'Banana / Egg (1 pc)'],
+        Lunch: ['Plain Rice', 'Dal', 'Mixed Veg', 'Roti (2)', 'Curd'],
+        Snacks: ['Veg Cutlets (2 pcs)', 'Lime Juice / Coffee'],
+        Dinner: ['Veg Biryani (Dahi + Raita)', 'Mix Curry', 'Suji Halwa / Gulab Jamun']
       }
     },
     {
-      day : 'Thursday',
-      meals : {
-        Breakfast: [' parantha', 'chai'],
-        Lunch: [''],
-        Snacks: [''],
-        Dinner: ['']
+      day: 'Wednesday',
+      meals: {
+        Breakfast: ['Chole', 'Aloo Parantha', 'Bread (2 pcs)', 'Jam & Butter', 'Chutney', 'Milk / Tea', 'Banana / Egg (1 pc)'],
+        Lunch: ['Rajma', 'Plain Rice', 'Aloo Squash', 'Roti (2)', 'Curd'],
+        Snacks: ['Maggi / Noodles', 'Ketchup', 'Tea'],
+        Dinner: ['Jeera Rice', 'Chana Dal', 'Roti (2)', 'Kadhi Paneer / Veg Kofta', 'Salad']
       }
     },
     {
-      day : 'Friday',
-      meals : {
-        Breakfast: ['Aloo parantha', 'chai'],
-        Lunch: [''],
-        Snacks: [''],
-        Dinner: ['']
+      day: 'Thursday',
+      meals: {
+        Breakfast: ['Bread (2 pcs)', 'Jam & Butter', 'Milk / Tea', 'Banana / Egg (1 pc)'],
+        Lunch: ['Plain Rice', 'Dal', 'Mixed Veg', 'Roti (2)', 'Curd'],
+        Snacks: ['Sandwich', 'Sauce'],
+        Dinner: ['Veg Pulao', 'Chana Dal', 'Roti', 'Masoor Dal Tadka', 'Bhindi / Mixed Veg']
       }
     },
     {
-      day : 'Saturday',
-      meals : {
-        Breakfast: ['Aloo parantha', 'chai'],
-        Lunch: [''],
-        Snacks: [''],
-        Dinner: ['']
+      day: 'Friday',
+      meals: {
+        Breakfast: ['Plain Parantha', 'Bread (2 pcs)', 'Jam & Butter', 'Milk / Tea', 'Banana / Egg (1 pc)'],
+        Lunch: ['Rice', 'Dal Tadka', 'Aloo Methi / Kofta Curry', 'Roti (2)', 'Curd'],
+        Snacks: ['Boiled Chana / Sprouts', 'Salt + Lemon', 'Tea'],
+        Dinner: ['Peas Pulao', 'Dal Makhani', 'Mix Veg', 'Paneer Masala', 'Roti (2)', 'Egg Curry / Veg Kofta']
       }
     },
     {
-      day : 'Sunday',
-      meals : {
-        Breakfast: ['Aloo parantha', 'chai'],
-        Lunch: [''],
-        Snacks: [''],
-        Dinner: ['']
+      day: 'Saturday',
+      meals: {
+        Breakfast: ['Vada (2 pcs)', 'Sambar', 'Coconut Chutney', 'Bread (2 pcs)', 'Jam & Butter', 'Milk / Tea', 'Banana / Egg (1 pc)'],
+        Lunch: ['Plain Rice', 'Dal Makhani', 'Aloo', 'Roti (2)', 'Fish Gravy (2 pc) / Paneer Curry'],
+        Snacks: ['Samosa (2 pcs)', 'Chutney'],
+        Dinner: ['Mix Khichdi', 'Ghee', 'Papad', 'Pickle']
+      }
+    },
+    {
+      day: 'Sunday',
+      meals: {
+        Breakfast: ['Chole', 'Bhatura', 'Pickle (2 pcs)', 'Tea'],
+        Lunch: ['Peas Pulao', 'Chana Dal Fry', 'Onion Salad', 'Paneer Butter Masala / Chicken Gravy (4 pcs)'],
+        Snacks: ['NO SNACKS'],
+        Dinner: ['Plain Rice', 'Dal', 'Roti', 'Chole', 'Mix Veg', 'Ice Cream (1 scoop)']
       }
     }
-  ]
-
+  ];
   const todayMeals = menu.find((i) => i.day === selectedDay)
   return (
     <div>
@@ -94,7 +94,7 @@ function App() {
             ))
           }
         </div>
-        <div className={'w-100'}>
+        <div className={'w-96 bg-[#e8e4e6] self-start mt-38 rounded-lg mx-10'}>
           <Calendar/>
         </div>
       </div>
