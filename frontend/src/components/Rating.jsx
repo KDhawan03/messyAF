@@ -26,7 +26,7 @@ const Rating = () => {
             <button className="text-5xl hover:scale-120 transition" onClick={() => handleRating(4)}>😋</button>
             <button className="text-5xl hover:scale-120 transition" onClick={() => handleRating(5)}>🤤</button>
         </div>
-        Total Rating = {ratingCount}
+        {/* Total Rating = {ratingCount} */}
     </div>
   )
 }
