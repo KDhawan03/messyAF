@@ -8,7 +8,7 @@ router.post("/signup", async (req, res) => {
         const {name, email, password} = req.body;
         
         //checking existing user
-        const existingUser = await User.find({email});
+        const existingUser = await User.findOne({email});
         if(existingUser) {
             return res.json({
                 success:false,
@@ -16,13 +16,14 @@ router.post("/signup", async (req, res) => {
             })
         }
 
-        const newUser = newUser({
+        const newUser = new User({
             name,
             email, 
             password,
         })
 
-        await newUser.save();
+        const savedUser = await newUser.save();
+        console.log("saved user", savedUser);
         res.json({
             success:true,
             message:"User created successfully"
@@ -30,7 +31,9 @@ router.post("/signup", async (req, res) => {
 
     } catch (error) {
         console.error("Signup error: ", error.message);
-        res.json()
+        res.json({
+            success:false,
+        })
     }
 });
 
