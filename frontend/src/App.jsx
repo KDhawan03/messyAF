@@ -3,6 +3,7 @@ import './App.css'
 import Navbar from './components/Navbar'
 import MealPanels from './components/MealPanels'
 import Calendar from './components/Calendar'
+import Signup from './components/signup'
 import 'react-calendar/dist/Calendar.css';
 
 function App() {
@@ -81,7 +82,8 @@ function App() {
   const todayMeals = menu.find((i) => i.day === selectedDay)
   return (
     <div>
-      <Navbar />
+      <Signup/>
+      {/* <Navbar />
       <div className='flex justify-between pt-30 bg-[#abd1c6] min-h-screen'>
         <div className='flex flex-col flex-1'>
           {
@@ -97,7 +99,7 @@ function App() {
         <div className={'w-96 bg-[#e8e4e6] self-start mt-38 rounded-lg mx-10'}>
           <Calendar/>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -1,0 +1,74 @@
+body {
+    box-sizing: border-box;
+    background-color: #004643;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    position: relative;
+    background-color: #abd1c6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 500px;
+}
+
+.signup {
+    color: #fffffe;
+    font-size: 30px;
+}
+
+input:focus {
+    border:none;
+    outline: none;
+}
+
+.input{
+    display: flex;
+    border: none;
+    outline: none;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    gap: 20px;
+    user-select: none;
+}
+
+.btns {
+    display: flex;
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    gap: 30px;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 30px;
+    width: 70px;
+    border-radius: 10px;
+}
+
+button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+}
+
+
+.active-btn {
+    background-color: #f9bc60;
+    color: #001e1d;
+    scale: 1.1
+}
+
+.inactive-btn {
+    background-color: ;
+}
