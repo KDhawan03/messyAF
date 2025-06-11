@@ -3,7 +3,7 @@ import './App.css'
 import Navbar from './components/Navbar'
 import MealPanels from './components/MealPanels'
 import Calendar from './components/Calendar'
-import Signup from './components/Signup'
+import Signup from './components/signup'
 import 'react-calendar/dist/Calendar.css';
 
 function App() {
