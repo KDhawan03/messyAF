@@ -29,7 +29,18 @@ const Signup = () => {
         } catch (err) {
           alert(err.response?.data?.error || "Signup failed");
         }
-      };
+    };
+
+    const handleLogin = async () => {
+        try {
+            const res = await axios.post("http://localhost:3000/api/login", {
+                email,
+                password
+            })
+        } catch(error) {
+            alert(err.response?.data?.error || "Invalid credentials") 
+        }
+    }
 
   return (
     <div className='container flex justify-center items-center flex-col'>
@@ -67,7 +78,9 @@ const Signup = () => {
                 if(active === 'Signup') handleSignup();
                 setActive('Signup')}}>Signup</button>
             
-            <button className = {active === 'Login' ? 'active-btn': 'inactive-btn'} onClick = {() => {setActive('Login')}}>Login</button>
+            <button className = {active === 'Login' ? 'active-btn': 'inactive-btn'} onClick = {() => {
+                if(active === 'Login') handleLogin();
+                setActive('Login')}}>Login</button>
         </div>
     </div>
   )

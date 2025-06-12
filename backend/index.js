@@ -18,6 +18,8 @@ const signup = require("./routes/Signup.js")
 app.use('/api', signup);
 // api/signup
 
+const login = require("./routes/Login.js")
+app.use('/api', login);
 
 app.get('/', (req, res) => {
   console.log(req.body);
