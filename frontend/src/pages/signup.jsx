@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {FaUser} from 'react-icons/fa'
 import {FaEnvelope} from 'react-icons/fa'
 import {FaLock} from 'react-icons/fa'
-import './Signup.css'
+import '../styling/Signup.css'
 import axios from 'axios'
 
 

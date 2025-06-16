@@ -5,7 +5,7 @@ import './Calendar.css';
 
 const Calendar = () => {
   return (
-    <div>
+    <div className = 'fixed w-96 h-78 bg-[#e8e4e6] self-start rounded-lg mr-10 pt-8'>
       <ReactCalendar />
     </div>
   )
