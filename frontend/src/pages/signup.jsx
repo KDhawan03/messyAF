@@ -4,7 +4,7 @@ import {FaEnvelope} from 'react-icons/fa'
 import {FaLock} from 'react-icons/fa'
 import '../styling/Signup.css'
 import axios from 'axios'
-
+import {useNavigate} from 'react-router-dom'
 
 const Signup = () => {
     const [active, setActive] = useState('Signup');
@@ -31,14 +31,23 @@ const Signup = () => {
         }
     };
 
+    const navigate = useNavigate();
+
     const handleLogin = async () => {
         try {
             const res = await axios.post("http://localhost:3000/api/login", {
                 email,
                 password
-            })
+            });
+
+            if(res.data.success) {
+                localStorage.setItem("isAuthenticated", "true");
+                navigate('/landing');
+            } else {
+                alert(res.data.message || "Login failed");
+            }   
         } catch(error) {
-            alert(err.response?.data?.error || "Invalid credentials") 
+            alert(error.response?.data?.error || "Invalid credentials") 
         }
     }
 

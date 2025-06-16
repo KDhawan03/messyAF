@@ -1,16 +1,21 @@
-import { useState } from 'react'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css'
 import Signup from './pages/signup'
 import Landing from './pages/Landing'
-import 'react-calendar/dist/Calendar.css';
+import ProtectedRoutes from './components/ProtectedRoutes'
 
 function App() {
   
   return (
-    <div w-full>
-      <Landing />
-      {/* <Signup /> */}
-    </div>
+    <Router>
+      <Routes>
+          <Route path = "/" element ={<Signup />} />
+          <Route element = {<ProtectedRoutes/>}>
+            <Route path = "/landing" element ={<Landing />} />
+          </Route>
+
+      </Routes>
+    </Router>
   )
 }
 
