@@ -5,7 +5,7 @@ const app = express()
 const cors = require('cors');
 
 app.use(cors({
-  origin: "https://messy-af.vercel.app/",  
+  origin: "https://messy-af.vercel.app",  
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
