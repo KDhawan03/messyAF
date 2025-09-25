@@ -4,7 +4,12 @@ const dotenv = require('dotenv');
 const app = express()
 const cors = require('cors');
 
-app.use(cors());
+app.use(cors({
+  origin: "https://messy-af.vercel.app/",  
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 //load env
 dotenv.config();
 

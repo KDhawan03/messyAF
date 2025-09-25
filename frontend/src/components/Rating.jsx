@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 const Rating = () => {
     const [userRating, setUserRating] = useState(0);
     const [ratingCount, setRatingCount] = useState(0);
-    const emojis = ['🤢', '😭', '😐', '😋', '🤤'];
-
+    
     function handleRating(value) {
         if(userRating === 0) {
             setRatingCount(ratingCount + 1);
