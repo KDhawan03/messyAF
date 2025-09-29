@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Navbar from "../components/Navbar";
 import MealPanels from "../components/MealPanels";
 import Calendar from "../components/Calendar";
@@ -184,20 +184,90 @@ const Landing = () => {
     },
   ];
   const todayMeals = menu.find((i) => i.day === selectedDay);
+
+  const[dailyRatings, setDailyRatings] = useState({});
+  const[mealStats, setMealStats] = useState({});
+
+  useEffect(() => {
+    loadUserRatings();
+  }, []);
+
+  const loadUserRatings = async () => {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const response = await fetch(`http://localhost:3000/api/ratings/temp-user/${today}`);
+      if(!response.ok) {
+        throw new error('Failed to load ratings');
+      }
+      const ratings = await response.json();
+      console.log('Loaded user ratings:', ratings);
+      setDailyRatings(ratings);
+    } catch (error) {
+        console.error('Failed to load user ratings:', error);
+    }
+  };
+
+  const handleRateMeal = async (mealType, rating) => {
+    console.log('Rating clicked:', mealType, rating);
+
+    setDailyRatings(prev => {
+      const newRatings = { ...prev, [mealType]: rating };
+      console.log('Updated ratings:', newRatings);
+      return newRatings;
+    });
+    
+    try {
+      const response = await fetch('http://localhost:3000/api/rate', {
+        method: 'POST', 
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+        user: 'temp-user', // Use actual user ID later
+        date: new Date().toISOString().split('T')[0],
+        ratings: {
+          [mealType]:rating
+        }
+      })
+    });
+    if(!response.ok) {
+      throw new Error('Failed to save rating')
+    }
+    const result = await response.json();
+    console.log('Rating saved', result);
+      } catch(error) {
+        console.log('Failed to save rating:', error);
+        setDailyRatings(prev => ({
+          ...prev,
+          [mealType]: 0
+      }));
+    }
+  };
+
+  const getCurrentMeals = () => {
+    const hour = new Date().getHours();
+    if(hour < 11) return ["Breakfast"];
+    if(hour < 15) return ["Breakfast", "Lunch"];
+    if(hour < 19) return ["Breakfast", "Lunch", "Snacks"];
+    return ["Breakfast", "Lunch", "Snacks", "Dinner"];
+  };
+  const visibleMeals = getCurrentMeals();
   return (
-    <div className="w-screen min-h-screen">
+    <div className="w-screen min-h-screen bg-[#abd1c6]">
       <Navbar />
-      <div className="flex justify-between w-screen pt-170 bg-[#abd1c6]">
-        <div className="flex flex-col flex-1">
-          {["Breakfast", "Lunch", "Snacks", "Dinner"].map((meal) => (
+      <div className="flex flex-col lg:flex-row gap-6 p-6 pt-24 max-w-7xl mx-auto">
+        <div className="flex-1 space-y-4">
+          {visibleMeals.map((meal) => (
             <MealPanels
               key={meal}
               mealType={meal}
               items={todayMeals.meals[meal]}
+              onRate = {handleRateMeal}
+              currentRating = {dailyRatings[meal]}
+              ratingStats = {mealStats[meal]}
             />
           ))}
         </div>
-        <div className={"w-96 bg-[#e8e4e6] self-start mt-38 rounded-lg mx-10"}>
+        <div className="w-full lg:w-80 bg-white rounded-lg p-4 shadow-lg h-fit sticky top-24">
+          <h3 className="text-lg font-semibold mb-4 text-center">Calendar</h3>
           <Calendar />
         </div>
       </div>

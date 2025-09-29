@@ -15,7 +15,7 @@ const Signup = () => {
     
     const handleSignup = async () => {
         try {
-          const res = await axios.post("https://messyaf-backend.onrender.com/api/signup", {
+          const res = await axios.post("http://localhost:3000/api/signup", {
             name,
             email,
             password,
@@ -35,7 +35,7 @@ const Signup = () => {
 
     const handleLogin = async () => {
         try {
-            const res = await axios.post("https://messyaf-backend.onrender.com/api/login", {
+            const res = await axios.post("http://localhost:3000/api/login", {
                 email,
                 password
             });

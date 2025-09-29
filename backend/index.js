@@ -5,7 +5,7 @@ const app = express()
 const cors = require('cors');
 
 app.use(cors({
-  origin: "https://messy-af.vercel.app",  
+  origin: ["https://messy-af.vercel.app", "http://localhost:5173", "http://localhost:3000"],  
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
@@ -25,6 +25,11 @@ app.use('/api', signup);
 
 const login = require("./routes/Login.js")
 app.use('/api', login);
+
+const rating = require("./routes/Rating.js");
+console.log('Rating route loaded:', rating);
+app.use('/api', rating);
+console.log('Rating route registered at /api');
 
 app.get('/', (req, res) => {
   console.log(req.body);

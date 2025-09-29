@@ -1,12 +1,16 @@
 import React from 'react'
 import Rating from './Rating'
 
-const MealPanels = ({mealType, items = [], }) => {
+const MealPanels = ({mealType, items = [], onRate, currentRating, ratingStats}) => {
   return (
     <div className = 'bg-[#004643] text-[#e8e4e6] flex flex-col justify-center text-center p-4 m-5 rounded-lg h-60'>
         <h1 className='text-5xl'>{mealType}</h1>
         <p className='text-2xl text-[#abd1c6] mt-3'> {items.join(', ')}</p>
-        <Rating />
+        <Rating 
+          onRate = {onRate}
+          currentRating = {currentRating}
+          mealType = {mealType}
+        />
     </div>
   )
 }

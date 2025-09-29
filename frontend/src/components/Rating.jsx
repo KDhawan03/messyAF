@@ -1,31 +1,49 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-const Rating = () => {
-    const [userRating, setUserRating] = useState(0);
-    const [ratingCount, setRatingCount] = useState(0);
+const Rating = ({mealType, currentRating, onRate, ratingStats}) => {  
+    const emojis = ['🤢', '😭', '😐', '😋', '🤤'];
+    const[selectedRating, setSelectedRating] = useState(currentRating || 0);
+
+    useEffect(() => {
+        setSelectedRating(currentRating || 0);
+    }, [currentRating]);
     
-    function handleRating(value) {
-        if(userRating === 0) {
-            setRatingCount(ratingCount + 1);
+    const handleClick = (index) => {
+        const newRating = index + 1;
+        if (selectedRating === newRating) {
+            setSelectedRating(0);
+            if (onRate) {
+                onRate(mealType, 0);  // Send 0 to unrate
+            }
+        } else {
+            setSelectedRating(newRating);
+            if (onRate) {
+                onRate(mealType, newRating);
+            }
         }
-        if(userRating === value) {     //same emoji clicked... unrated
-            setRatingCount(ratingCount - 1);
-            setUserRating(0);
-            return;
-        }
-        setUserRating(value);   //storing which emoji clicked
     }
-
   return (
     <div className='mt-2 flex justify-center flex-col'>
         <div className='flex justify-around'>
-            <button className="text-5xl hover:scale-120 transition" onClick={() => handleRating(1)}>🤢</button>
-            <button className="text-5xl hover:scale-120 transition" onClick={() => handleRating(2)}>😭</button>
-            <button className="text-5xl hover:scale-120 transition" onClick={() => handleRating(3)}>😐</button>
-            <button className="text-5xl hover:scale-120 transition" onClick={() => handleRating(4)}>😋</button>
-            <button className="text-5xl hover:scale-120 transition" onClick={() => handleRating(5)}>🤤</button>
+            {emojis.map((emoji, index) => {
+                return (
+                    <button 
+                        key = {index} 
+                        onClick = {() => handleClick(index)}
+                        className = {`text-3xl transition-all hover:scale-105 ${
+                            selectedRating === 0 
+                                ? "opacity-100 scale-100"
+                                :selectedRating === (index + 1) 
+                                    ? "opacity-110 scale-110" 
+                                    : "opacity-50 scale-90 "
+                        }`}
+                    >
+                        {emoji}
+                    </button>
+                )
+            })}
         </div>
-        {/* Total Rating = {ratingCount} */}
+        
     </div>
   )
 }

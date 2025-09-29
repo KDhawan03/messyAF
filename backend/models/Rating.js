@@ -1,8 +1,9 @@
-const {Schema, model} = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const RatingSchema = new Schema ({
     user : {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: 'User',
       required: true
     },
@@ -11,29 +12,16 @@ const RatingSchema = new Schema ({
         required: true
     },
     ratings: {
-        breakfast: {
-          type: Number,
-          min: 1,
-          max: 5
-        },
-        lunch: {
-          type: Number,
-          min: 1,
-          max: 5
-        },
-        snacks: {
-          type: Number,
-          min: 1,
-          max: 5
-        },
-        dinner: {
-          type: Number,
-          min: 1,
-          max: 5
-        }
+        Breakfast: { type: Number, default: 0 }, // store rating value (1–5)
+        Lunch: { type: Number, default: 0 },
+        Snacks: { type: Number, default: 0 },
+        Dinner: { type: Number, default: 0 },
     },
     createdAt: { 
         type: Date,
         default: Date.now,
     },
 });
+const RatingModel = model("Rating", RatingSchema)
+  
+module.exports = RatingModel
