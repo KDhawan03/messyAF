@@ -186,7 +186,6 @@ const Landing = () => {
   const todayMeals = menu.find((i) => i.day === selectedDay);
 
   const[dailyRatings, setDailyRatings] = useState({});
-  const[mealStats, setMealStats] = useState({});
 
   useEffect(() => {
     loadUserRatings();
@@ -228,16 +227,16 @@ const Landing = () => {
         }
       })
     });
-    if(!response.ok) {
-      throw new Error('Failed to save rating')
-    }
-    const result = await response.json();
-    console.log('Rating saved', result);
-      } catch(error) {
-        console.log('Failed to save rating:', error);
-        setDailyRatings(prev => ({
-          ...prev,
-          [mealType]: 0
+      if(!response.ok) {
+        throw new Error('Failed to save rating')
+      }
+      const result = await response.json();
+      console.log('Rating saved', result);
+    } catch(error) {
+      console.log('Failed to save rating:', error);
+      setDailyRatings(prev => ({
+        ...prev,
+        [mealType]: 0
       }));
     }
   };
@@ -249,30 +248,28 @@ const Landing = () => {
     if(hour < 19) return ["Breakfast", "Lunch", "Snacks"];
     return ["Breakfast", "Lunch", "Snacks", "Dinner"];
   };
-  const visibleMeals = getCurrentMeals();
+  const visibleMeals = getCurrentMeals()
   return (
-    <div className="w-screen min-h-screen bg-[#abd1c6]">
+    <div className="w-screen h-screen bg-[#abd1c6]">
       <Navbar />
-      <div className="flex flex-col lg:flex-row gap-6 p-6 pt-24 max-w-7xl mx-auto">
-        <div className="flex-1 space-y-4">
+        <div className="flex flex-row justify-center ">
+        <div className="flex flex-2 min-w-0 flex-col mt-[150px] gap-6 ml-[50px] max-w-4xl">
           {visibleMeals.map((meal) => (
             <MealPanels
               key={meal}
               mealType={meal}
               items={todayMeals.meals[meal]}
-              onRate = {handleRateMeal}
-              currentRating = {dailyRatings[meal]}
-              ratingStats = {mealStats[meal]}
+              onRate={handleRateMeal}
+              currentRating={dailyRatings[meal]}
             />
           ))}
         </div>
-        <div className="w-full lg:w-80 bg-white rounded-lg p-4 shadow-lg h-fit sticky top-24">
-          <h3 className="text-lg font-semibold mb-4 text-center">Calendar</h3>
-          <Calendar />
+          <div className="flex flex-1 min-w-0 items-center justify-center">
+              <Calendar />
+          </div>
         </div>
-      </div>
+      {/* </div> */}
     </div>
   );
 };
-
-export default Landing;
+export default Landing

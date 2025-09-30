@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-const Rating = ({mealType, currentRating, onRate, ratingStats}) => {  
+const Rating = ({mealType, currentRating, onRate}) => {  
     const emojis = ['🤢', '😭', '😐', '😋', '🤤'];
     const[selectedRating, setSelectedRating] = useState(currentRating || 0);
 
@@ -30,7 +30,7 @@ const Rating = ({mealType, currentRating, onRate, ratingStats}) => {
                     <button 
                         key = {index} 
                         onClick = {() => handleClick(index)}
-                        className = {`text-3xl transition-all hover:scale-105 ${
+                        className = {`text-3xl mt-4 transition-all hover:scale-105 ${
                             selectedRating === 0 
                                 ? "opacity-100 scale-100"
                                 :selectedRating === (index + 1) 
