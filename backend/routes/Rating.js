@@ -1,10 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const Rating = require('../models/Rating');
+const authenticateToken = require('../middleware/auth.js');
 
-router.get('/ratings/:user/:date', async (req, res) => {
+router.get('/ratings/:user/:date', authenticateToken, async (req, res) => {
     try {
         const {user, date} = req.params;
+
+        if (req.user.userId !== user) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied'
+            });
+        }
+
         const rating = await Rating.findOne({user, date});
         if(rating) {
             res.json(rating.ratings);
@@ -18,13 +27,17 @@ router.get('/ratings/:user/:date', async (req, res) => {
         } 
     } catch (error) {
         console.error(error);
-        res.status(500).json({error: error.message});
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
     }
 });
 
 // POST /api/rate - Save or update today's rating
-router.post('/rate', async (req, res) => {
-    const { user, date, ratings } = req.body;
+router.post('/rate', authenticateToken, async (req, res) => {
+    const { date, ratings } = req.body;
+    const userId = req.user.userId;
 
     const today = new Date().toISOString().split('T')[0];
     const reqDate = new Date(date).toISOString().split('T')[0];
@@ -37,13 +50,20 @@ router.post('/rate', async (req, res) => {
     }
 
     try {
-        const existing = await Rating.findOne({ user, date: reqDate });
+        const existing = await Rating.findOne({ 
+            user: userId, 
+            date: reqDate 
+        });
 
         if (existing) {
             existing.ratings = { ...existing.ratings, ...ratings };
             await existing.save();
         } else {
-            const newRating = new Rating({ user, date: today, ratings: ratings });
+            const newRating = new Rating({ 
+                user:userId, 
+                date: today, 
+                ratings: ratings 
+            });
             await newRating.save();
         }
         res.json({ success: true, message: "Rating saved" });

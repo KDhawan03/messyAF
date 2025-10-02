@@ -5,6 +5,7 @@ import {FaLock} from 'react-icons/fa'
 import '../styling/Signup.css'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
+import api from '../utils/axiosConfig';
 
 const Signup = () => {
     const [active, setActive] = useState('Signup');
@@ -15,7 +16,7 @@ const Signup = () => {
     
     const handleSignup = async () => {
         try {
-          const res = await axios.post("http://localhost:3000/api/signup", {
+          const res = await api.post("/signup", {
             name,
             email,
             password,
@@ -35,61 +36,66 @@ const Signup = () => {
 
     const handleLogin = async () => {
         try {
-            const res = await axios.post("http://localhost:3000/api/login", {
+            const res = await api.post("/login", {
                 email,
                 password
             });
 
             if(res.data.success) {
+                localStorage.setItem("token", res.data.accessToken);
+                localStorage.setItem("refreshToken", res.data.refreshToken);
                 localStorage.setItem("isAuthenticated", "true");
                 navigate('/landing');
             } else {
                 alert(res.data.message || "Login failed");
             }   
         } catch(error) {
-            alert(error.response?.data?.error || "Invalid credentials") 
+            alert(error.response?.data?.message || "Invalid credentials") 
         }
     }
 
   return (
-    <div className='container flex justify-center items-center flex-col'>
-        <div className='signup'>{active}</div>
-        {active === 'Signup' ? <div className="input">
-            <FaUser></FaUser>
-            <input 
-                type="text" 
-                placeholder="Enter name" 
-                value = {name}
-                onChange = {(e) =>setName(e.target.value)}
-            />
-        </div> : <div/>}
-        
-        <div className="input">
-            <FaEnvelope></FaEnvelope>
-            <input 
-                type="email" 
-                placeholder="Enter email"
-                value = {email}
-                onChange = {(e) =>setEmail(e.target.value)}
-            />
-        </div>
-        <div className="input">
-            <FaLock></FaLock>
-            <input 
-                type="password" 
-                placeholder="Enter password"
-                value = {password}
-                onChange = {(e) =>setPassword(e.target.value)}
-            />
-        </div>
-        <div className="btns flex justify-center">
-            <button className = {active === 'Signup' ? 'active-btn': 'inactive-btn'} onClick = {() => {
-                if(active === 'Signup') handleSignup();
-                setActive('Signup')}}>Signup</button>
+    <div className='signup-page'>
+
+        <div className='container flex justify-center items-center flex-col'>
+            <div className='signup'>{active}</div>
+            {active === 'Signup' ? <div className="input">
+                <FaUser></FaUser>
+                <input 
+                    type="text" 
+                    placeholder="Enter name" 
+                    value = {name}
+                    onChange = {(e) =>setName(e.target.value)}
+                />
+            </div> : <div/>}
             
-            <button className = {active === 'Login' ? 'active-btn': 'inactive-btn'} onClick = {() => {
-                if(active === 'Login') handleLogin();
-                setActive('Login')}}>Login</button>
+            <div className="input">
+                <FaEnvelope></FaEnvelope>
+                <input 
+                    type="email" 
+                    placeholder="Enter email"
+                    value = {email}
+                    onChange = {(e) =>setEmail(e.target.value)}
+                />
+            </div>
+            <div className="input">
+                <FaLock></FaLock>
+                <input 
+                    type="password" 
+                    placeholder="Enter password"
+                    value = {password}
+                    onChange = {(e) =>setPassword(e.target.value)}
+                />
+            </div>
+            <div className="btns flex justify-center">
+                <button className = {active === 'Signup' ? 'active-btn': 'inactive-btn'} onClick = {() => {
+                    if(active === 'Signup') handleSignup();
+                    setActive('Signup')}}>Signup</button>
+                
+                <button className = {active === 'Login' ? 'active-btn': 'inactive-btn'} onClick = {() => {
+                    if(active === 'Login') handleLogin();
+                    setActive('Login')}}>Login</button>
+            </div>
         </div>
     </div>
   )

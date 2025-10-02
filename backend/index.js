@@ -27,9 +27,7 @@ const login = require("./routes/Login.js")
 app.use('/api', login);
 
 const rating = require("./routes/Rating.js");
-console.log('Rating route loaded:', rating);
 app.use('/api', rating);
-console.log('Rating route registered at /api');
 
 app.get('/', (req, res) => {
   console.log(req.body);

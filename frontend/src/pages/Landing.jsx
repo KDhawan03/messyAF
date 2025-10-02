@@ -4,6 +4,7 @@ import MealPanels from "../components/MealPanels";
 import Calendar from "../components/Calendar";
 import "react-calendar/dist/Calendar.css";
 import '../styling/Landing.css'
+import api from '../utils/axiosConfig';
 
 const Landing = () => {
   const today = new Date();
@@ -194,7 +195,7 @@ const Landing = () => {
   const loadUserRatings = async () => {
     try {
       const today = new Date().toISOString().split('T')[0];
-      const response = await fetch(`http://localhost:3000/api/ratings/temp-user/${today}`);
+      const response = await api.get(`/ratings/temp-user/${today}`);
       if(!response.ok) {
         throw new error('Failed to load ratings');
       }
@@ -216,16 +217,12 @@ const Landing = () => {
     });
     
     try {
-      const response = await fetch('http://localhost:3000/api/rate', {
-        method: 'POST', 
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({
+      const response = await api.post('/rate', {
         user: 'temp-user', // Use actual user ID later
         date: new Date().toISOString().split('T')[0],
         ratings: {
           [mealType]:rating
         }
-      })
     });
       if(!response.ok) {
         throw new Error('Failed to save rating')
@@ -268,7 +265,6 @@ const Landing = () => {
               <Calendar />
           </div>
         </div>
-      {/* </div> */}
     </div>
   );
 };
