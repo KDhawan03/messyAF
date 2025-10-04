@@ -1,9 +1,8 @@
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import './App.css'
 import Signup from './pages/signup'
 import Landing from './pages/Landing'
 import ProtectedRoutes from './components/ProtectedRoutes'
-import { Navigate } from "react-router-dom";
 
 function App() {
   
