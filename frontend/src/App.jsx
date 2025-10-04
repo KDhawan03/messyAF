@@ -3,6 +3,7 @@ import './App.css'
 import Signup from './pages/signup'
 import Landing from './pages/Landing'
 import ProtectedRoutes from './components/ProtectedRoutes'
+import { Navigate } from "react-router-dom";
 
 function App() {
   
