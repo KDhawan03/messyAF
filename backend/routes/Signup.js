@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require("../models/User.js");
+const bcrypt = require('bcrypt');
 
 //Post /api/signup
 router.post("/signup", async (req, res) => {
@@ -16,14 +17,17 @@ router.post("/signup", async (req, res) => {
             })
         }
 
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
         const newUser = new User({
             name,
             email, 
-            password,
+            password: hashedPassword,
         })
 
         const savedUser = await newUser.save();
-        console.log("saved user", savedUser);
+        
         res.json({
             success:true,
             message:"User created successfully"

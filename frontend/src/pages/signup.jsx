@@ -3,7 +3,6 @@ import {FaUser} from 'react-icons/fa'
 import {FaEnvelope} from 'react-icons/fa'
 import {FaLock} from 'react-icons/fa'
 import '../styling/Signup.css'
-import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import api from '../utils/axiosConfig';
 
@@ -44,6 +43,7 @@ const Signup = () => {
             if(res.data.success) {
                 localStorage.setItem("token", res.data.accessToken);
                 localStorage.setItem("refreshToken", res.data.refreshToken);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
                 localStorage.setItem("isAuthenticated", "true");
                 navigate('/landing');
             } else {

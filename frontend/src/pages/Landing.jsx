@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import MealPanels from "../components/MealPanels";
 import Calendar from "../components/Calendar";
@@ -7,6 +8,7 @@ import '../styling/Landing.css'
 import api from '../utils/axiosConfig';
 
 const Landing = () => {
+  const navigate = useNavigate();
   const today = new Date();
   const dayNames = [
     "Sunday",
@@ -187,23 +189,33 @@ const Landing = () => {
   const todayMeals = menu.find((i) => i.day === selectedDay);
 
   const[dailyRatings, setDailyRatings] = useState({});
+  const[user, setUser] = useState(null);
 
   useEffect(() => {
-    loadUserRatings();
-  }, []);
+    const userData = localStorage.getItem('user');
+    if(userData) {
+      const parsedUser = JSON.parse(userData);
+      setUser(parsedUser);
+      loadUserRatings(parsedUser);
+    } else {
+      navigate('/signup');
+    }
 
-  const loadUserRatings = async () => {
+  }, [navigate]);
+
+  const loadUserRatings = async (userData = user) => {
     try {
+      if(!userData) return;
       const today = new Date().toISOString().split('T')[0];
-      const response = await api.get(`/ratings/temp-user/${today}`);
-      if(!response.ok) {
-        throw new error('Failed to load ratings');
-      }
-      const ratings = await response.json();
-      console.log('Loaded user ratings:', ratings);
-      setDailyRatings(ratings);
+      const response = await api.get(`/ratings/${userData.id}/${today}`);
+      console.log('Loaded user ratings:', response.data);
+      setDailyRatings(response.data);
     } catch (error) {
         console.error('Failed to load user ratings:', error);
+        if(error.response?.status === 401) {
+          localStorage.clear();
+          // navigate('/signup');
+        }
     }
   };
 
@@ -218,17 +230,12 @@ const Landing = () => {
     
     try {
       const response = await api.post('/rate', {
-        user: 'temp-user', // Use actual user ID later
         date: new Date().toISOString().split('T')[0],
         ratings: {
           [mealType]:rating
         }
     });
-      if(!response.ok) {
-        throw new Error('Failed to save rating')
-      }
-      const result = await response.json();
-      console.log('Rating saved', result);
+      console.log('Rating saved', response.data);
     } catch(error) {
       console.log('Failed to save rating:', error);
       setDailyRatings(prev => ({
