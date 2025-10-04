@@ -9,6 +9,7 @@ function App() {
   return (
     <Router>
       <Routes>
+          <Route path="/" element={<Navigate to="/signup" replace />} />
           <Route path = "/signup" element ={<Signup />} />
           <Route element = {<ProtectedRoutes/>}>
             <Route path = "/landing" element ={<Landing />} />

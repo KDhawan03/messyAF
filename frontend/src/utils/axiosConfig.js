@@ -59,7 +59,7 @@ api.interceptors.response.use(
           console.log('token refreshed successfully');
 
           //retry originalRequest with new token
-          originalRequest.headers.Authorization = `Bearer ${token}`;
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
           return api(originalRequest);
         } catch(refreshError) {
           console.log('token refresh failed');
