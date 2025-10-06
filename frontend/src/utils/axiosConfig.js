@@ -40,7 +40,7 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     //handling token expiration
-    if(error.response?.status === 401 && !originalRequest._retry) {
+    if((error.response?.status === 401 || error.response?.status === 403) && !originalRequest._retry) {
       console.log('access token expired, trying to refresh');
       originalRequest._retry = true;// preventing infinite loop
       
@@ -52,8 +52,10 @@ api.interceptors.response.use(
             refreshToken: refreshToken
           });
 
-          const newToken = response.data.accessToken;
-          
+          const newToken = response.data?.accessToken;
+          if (!newToken) {
+            throw new Error('No access token received from refresh endpoint');
+          }
           //set new token
           localStorage.setItem('token', newToken);
           console.log('token refreshed successfully');

@@ -1,7 +1,7 @@
 import React from 'react'
 import Rating from './Rating'
 
-const MealPanels = ({mealType, items = [], onRate, currentRating}) => {
+const MealPanels = ({mealType, items = [], onRate, currentRating, selectedDate}) => {
   return (
     <div className = 'bg-[#004643] text-[#e8e4e6] text-center rounded-lg h-50 flex flex-col justify-center '>
         <h1 className='text-5xl'>{mealType}</h1>
@@ -10,6 +10,7 @@ const MealPanels = ({mealType, items = [], onRate, currentRating}) => {
           onRate = {onRate}
           currentRating = {currentRating}
           mealType = {mealType}
+          selectedDate = {selectedDate}
         />
     </div>
   )

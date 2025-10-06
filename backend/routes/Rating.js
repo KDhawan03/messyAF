@@ -34,6 +34,44 @@ router.get('/ratings/:user/:date', authenticateToken, async (req, res) => {
     }
 });
 
+router.get('/percentages/:date/:meal', async(req, res) => {
+    try {
+        const {date, meal} = req.params;
+
+        const stats = await Rating.aggregate([
+            {$match: {date: date}},
+            { $group: {
+                _id: null,
+                rating1: { $sum: { $cond: [{ $eq: [`$ratings.${meal}`, 1] }, 1, 0] } },
+                rating2: { $sum: { $cond: [{ $eq: [`$ratings.${meal}`, 2] }, 1, 0] } },
+                rating3: { $sum: { $cond: [{ $eq: [`$ratings.${meal}`, 3] }, 1, 0] } },
+                rating4: { $sum: { $cond: [{ $eq: [`$ratings.${meal}`, 4] }, 1, 0] } },
+                rating5: { $sum: { $cond: [{ $eq: [`$ratings.${meal}`, 5] }, 1, 0] } },
+                total: { $sum: { $cond: [{ $gt: [`$ratings.${meal}`, 0] }, 1, 0] } }
+            }}
+        ]);
+        const data = stats[0] || {};
+        const total = data.total || 0;
+
+        if(total === 0) {
+            return res.json([0, 0, 0, 0, 0]);   //no ratings yet
+        }
+
+        //calculate percentages
+        const percentages = [
+            Math.round((data.rating1 / total) * 100), // 1 star percentage
+            Math.round((data.rating2 / total) * 100), // 2 star percentage  
+            Math.round((data.rating3 / total) * 100), // 3 star percentage
+            Math.round((data.rating4 / total) * 100), // 4 star percentage
+            Math.round((data.rating5 / total) * 100)  // 5 star percentage
+        ];
+        res.json(percentages);
+    } catch (error) {
+        console.error('percentages error:', error);
+        res.status(500).json({error: error.message});
+    }
+});
+
 // POST /api/rate - Save or update today's rating
 router.post('/rate', authenticateToken, async (req, res) => {
     const { date, ratings } = req.body;

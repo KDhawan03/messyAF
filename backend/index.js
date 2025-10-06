@@ -5,7 +5,12 @@ const app = express()
 const cors = require('cors');
 
 app.use(cors({
-  origin: ["https://messy-af.vercel.app", "http://localhost:5173", "http://localhost:3000"],  
+  origin: [
+    "https://messy-af.vercel.app", 
+    "https://messyaf-backend.onrender.com",
+    "http://localhost:5173", 
+    "http://localhost:3000"
+  ], 
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));

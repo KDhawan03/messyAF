@@ -18,7 +18,7 @@ const authenticateToken = (req, res, next) => {
     //it has a callback too that has err and the thing we serialized
     jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, user) => {
         if(err) {
-            return res.status(403).json({
+            return res.status(401).json({
                 success:false,
                 message: 'Invalid or expired token'
             });
