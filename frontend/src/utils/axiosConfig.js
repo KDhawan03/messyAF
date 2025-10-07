@@ -10,14 +10,12 @@ const api = axios.create({
 //2. request interceptor... runs before every api request
 api.interceptors.request.use(
   (config) => {
-    console.log('Making api request to:', config.url)
     //get jwt token from localStorage
     const token = localStorage.getItem('token');
 
     if(token) {
       //adding authorization header to every request
       config.headers.Authorization = `Bearer ${token}`;
-      console.log('token attached to request');
     } else {
       console.log(`no token found in localStorage`);
     }
@@ -32,7 +30,6 @@ api.interceptors.request.use(
 //3. response interceptor... runs after every api response
 api.interceptors.response.use(
   (response) => {
-    console.log('api response received', response.status);
     return response;
   },
   async (error) => {

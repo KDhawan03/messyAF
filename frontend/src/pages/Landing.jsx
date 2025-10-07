@@ -38,7 +38,6 @@ const Landing = () => {
     try {
       if(!userData) return;
       const response = await api.get(`/ratings/${userData.id}/${date}`);
-      console.log('Loaded user ratings for:', date, ':', response.data);
       setDailyRatings(response.data);
     } catch (error) {
         console.error('Failed to load user ratings:', error);
@@ -72,8 +71,7 @@ const Landing = () => {
         ratings: {
           [mealType]:rating
         }
-    });
-      console.log('Rating saved', response.data);
+      });
     } catch(error) {
       console.log('Failed to save rating:', error);
       setDailyRatings(prev => ({
