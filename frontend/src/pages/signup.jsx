@@ -143,7 +143,7 @@ const Signup = () => {
         if(newErrors.email || newErrors.password) {
             return;
         }
-        setMessage({ text: '', type: '' });
+        setMessage('');
         try {
             const res = await api.post("/login", {
                 email,
